@@ -1,7 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+  const [menuWidth, setMenuWidth] = useState(0)
+
   return (
     <div className="App">
       <>
@@ -17,11 +20,11 @@ function App() {
         <div className="nav-link-wrapper active-nav-link">
           <a href="index.html">Encrypto</a>
         </div>
-        <div id="menus" className="test-overlay">
+        <div id="menus" className="test-overlay" style={{width: menuWidth}}>
           <a
             href="javascript:void(0)"
             className="test-close"
-            onclick="closeMenu()"
+            onClick={() => {setMenuWidth(0)}}
           >
             ×
           </a>
@@ -33,7 +36,7 @@ function App() {
             <a href="index.html">LINKS</a>
           </div>
         </div>
-        <div className="menu-container" onclick="openMenu(this)">
+        <div className="menu-container" onClick={() => {setMenuWidth(100)}}>
           <div className="bar1" />
           <div className="bar2" />
           <div className="bar3" />

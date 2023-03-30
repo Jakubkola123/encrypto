@@ -467,3 +467,8 @@ color: #000000;
   color: #8a8a8a;
 }
 
+.portfolio-items-wrapper:hover{
+  opacity: 50%;
+  border-bottom: 5px solid black;
+}
+
