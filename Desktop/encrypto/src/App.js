@@ -9,10 +9,10 @@ function App() {
     <div className="App">
       <>
   {/* Hello world */}
-  <div className="awesome" style={{ border: "1px solid red" }}>
+  {/* <div className="awesome" style={{ border: "1px solid red" }}>
     <label htmlFor="name">Enter your name: </label>
     <input type="text" id="name" />
-  </div>
+  </div> */}
   <p></p>
   <div className="container">
     <div className="nav-wrapper">
@@ -168,7 +168,7 @@ function App() {
         <div className="category-wrapper">
           <div className="category-img">
             <a href="#">
-              <img src="images/bitcoin.jpg" alt="image" />
+              <img src="src/assets/bitcoin.jpg" alt="image" />
             </a>
             <div className="centered">Use case 2?</div>
             <div className="go-now">Get Started</div>
@@ -177,7 +177,7 @@ function App() {
         <div className="category-wrapper">
           <div className="category-img">
             <a href="#">
-              <img src="images/market.jpg" alt="image" />
+              <img src="assets/market.jpg" alt="image" />
             </a>
             <div className="centered">Use case 3?</div>
             <div className="go-now">Get Started</div>
