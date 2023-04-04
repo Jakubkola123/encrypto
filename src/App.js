@@ -48,7 +48,7 @@ function App() {
         <div className="nav-link-wrapper active-nav-link">
           <a href="index.html">Encrypto</a>
         </div>
-        <div id="menus" className="test-overlay" style={{width: menuWidth}}>
+        <div id="menus" className="test-overlay" style={{width: menuWidth, height: '100vh'}}>
           <a
             href="javascript:void(0)"
             className="test-close"
@@ -64,7 +64,7 @@ function App() {
             <a href="index.html">LINKS</a>
           </div>
         </div>
-        <div className="menu-container" onClick={() => {setMenuWidth(100)}}>
+        <div className="menu-container" onClick={() => {setMenuWidth("100%")}}>
           <div className="bar1" />
           <div className="bar2" />
           <div className="bar3" />
