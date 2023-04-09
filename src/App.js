@@ -8,6 +8,7 @@ import React from 'react';
 import { NavLink, Route, Routes, BrowserRouter as Router} from 'react-router-dom';
 
 import Login from './login';
+import ViewMarket from './viewMarket';
 
 
 //A potential API we could use?
@@ -50,6 +51,7 @@ return(
   <Routes>
     <Route path='/' element={<Homepage />}/> {/*changes to home page*/}
     <Route path='/login' element={<Login />}/> {/*changes to login page*/}
+    <Route path='/viewMarket' element={<ViewMarket />}/> {/*changes to view market page*/}
   </Routes>
 </Router>)
 
@@ -149,7 +151,7 @@ function Homepage() {
             </div>
           </li>
 
-          
+          <li><NavLink exact activeClassName="current" to='/viewMarket'>Market</NavLink></li> {/*Create the market button*/}
           <li><NavLink exact activeClassName="current" to='/login'>Login</NavLink></li> {/*Creates the login button */}
           
 
