@@ -732,3 +732,38 @@ section{
         padding: 6px 10px;
     }
 }
+
+/* Styling for tables */
+.market table{
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+  
+.market th, .market td{
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+  
+.market th{
+    background-color: #0077b6;
+    color: white;
+}
+  
+.market tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+  
+.market tr:hover{
+    background-color: #e6f7ff;
+}
+
+.market h2{
+    text-transform: uppercase;
+    font-size: 36px;
+    letter-spacing: 6px;
+}

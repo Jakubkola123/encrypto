@@ -12,28 +12,45 @@ const CryptoTable = () => {
   }, []);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Symbol</th>
-          <th>Price</th>
-          <th>24h Change</th>
-          <th>Market Cap</th>
-        </tr>
-      </thead>
-      <tbody>
-        {cryptoData.map(crypto => (
-          <tr key={crypto.id}>
-            <td>{crypto.name}</td>
-            <td>{crypto.symbol.toUpperCase()}</td>
-            <td>{crypto.current_price}</td>
-            <td>{crypto.price_change_percentage_24h}%</td>
-            <td>{crypto.market_cap}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="market">
+
+        <br></br>
+
+        <h2>Crypto Market</h2>
+
+        <table>
+
+        <thead>
+
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Price (USD)</th>
+                <th>24h Change</th>
+                <th>Market Cap</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {cryptoData.map(crypto => (
+
+            <tr key={crypto.id}>
+                <td>{crypto.name}</td>
+                <td>{crypto.symbol.toUpperCase()}</td>
+                <td>{crypto.current_price}</td>
+                <td>{crypto.price_change_percentage_24h}%</td>
+                <td>{crypto.market_cap}</td>
+            </tr>
+            
+            ))}
+
+        </tbody>
+
+        </table>
+
+    </div>
   );
 };
 
