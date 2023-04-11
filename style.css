@@ -769,6 +769,12 @@ section{
 }
 
 /* user logged in styles */
+.padding-layer {
+    padding: 0 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .user-dashboard {
     display: flex;
     align-items: center;
