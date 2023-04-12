@@ -23,6 +23,13 @@ const Transactions=() => {
   const [showNotification, setShowNotification] = useState(false);
   const [selectedCrypto, setSelectedCrypto] = useState(null);
 
+
+  const [isWithdrawFormVisible, setIsWithdrawFormVisible] = useState(false);
+  const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const [showError, setShowError] = useState(false);
+
+
+
   const [cryptoHoldings, setCryptoHoldings] = useState({ BTC: 0, ETH: 0, LTC: 0 });
   const [cryptoPrices, setCryptoPrices] = useState({});
   const [historicalData, setHistoricalData] = useState([]);
@@ -53,26 +60,46 @@ const Transactions=() => {
   const handleCryptoSelection = (cryptoId) => {
     fetchHistoricalData(cryptoId);
   };
-  const handleBuyClick = (crypto) => {
-    setSelectedCrypto(crypto);
+  const handleBuyClick = () => {
     setShowForm(true);
+    setIsWithdrawFormVisible(false);
   };
+
 
   const handleSellClick = (crypto, cryptoId) => {
     setSelectedCrypto(crypto);
     // Implement the selling functionality
   };  
 
+  const handleWithdrawClick = () => {
+    setShowForm(true);
+    setIsWithdrawFormVisible(true);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setBalance(balance + amount); // update balance when form is submitted
-    setShowForm(false); // hide pop-up form after submission
-    setShowNotification(true); // show notification after submission
-
+    if (isWithdrawFormVisible && withdrawAmount > balance) {
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 3000);
+      return;
+    }
+    const newBalance = balance + amount - withdrawAmount;
+    if (newBalance < 0) {
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 3000);
+      return;
+    }
+    setBalance(newBalance);
+    setShowNotification(true);
     setTimeout(() => {
-      setShowNotification(false); // hide notification after 2 seconds
-    }, 2000);
-  }  
+      setShowNotification(false);
+    }, 3000);
+    setShowForm(false); // set showForm state to false to make the form disappear
+  };
 
   return (
 
@@ -120,15 +147,8 @@ const Transactions=() => {
           </div>
           <div className="padding-layer">
             <div className="user-dashboard">
-              <div className="profile-picture">
-                <img src="path/to/profile-picture.jpg" alt="Profile Picture" />
-              </div>
               <div className="username">
-                <h2>John Doe</h2>
-              </div>
-              <div className="notifications">
-                <i className="fas fa-bell" />
-                <span className="badge">notif bell here</span>
+                <h2>Test User</h2>
               </div>
               <div className="balance">
                 <h3>Balance:</h3>
@@ -137,7 +157,7 @@ const Transactions=() => {
             </div>
             <div className="user-transaction-buttons">
               <div className="transaction-button buy-button" onClick={handleBuyClick}>
-                <span>ADD FUNDS</span>
+                <span>Add or withdraw funds</span>
               </div>
             </div>
             <div className="view-container">
@@ -189,29 +209,52 @@ const Transactions=() => {
     </div>
   </div>
   {showForm && (
-  <form onSubmit={handleSubmit}>
-    <label>
-      Amount:
-      <input type="text" pattern="[0-9]+" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
-    </label>
-    <label>
-      Card Number:
-      <input type="tel" pattern="[0-9]{16}" maxLength="16" required />
-    </label>
-    <label>
-      Billing Address:
-      <input type="text" pattern="[a-zA-Z0-9\s]+" required />
-    </label>
-    <button type="submit">Submit</button>
-  </form>
-)}
-  {showNotification && (
-  <div className="success-notification">
-    <h2>Success</h2>
-    <p>You've added ${amount.toFixed(2)} and your account balance is now ${balance.toFixed(2)}</p>
-  </div>
-)}
-</>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Add Funds:
+            <input
+              type="text"
+              pattern="[0-9]+"
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+            />
+          </label>
+          <label>
+  Withdraw Amount:
+  <input
+    type="text"
+    pattern="[0-9]+"
+    value={withdrawAmount}
+    onChange={(e) => setWithdrawAmount(Number(e.target.value))}
+  />
+</label>
+          {isWithdrawFormVisible ? (
+            <>
+            </>
+          ) : (
+            <>
+              <label>
+                Card Number:
+                <input type="tel" pattern="[0-9]{16}" maxLength="16" required />
+              </label>
+              <label>
+                Billing Address:
+                <input type="text" pattern="[a-zA-Z0-9\s]+" required />
+              </label>
+            </>
+          )}
+          <button type="submit">Submit</button>
+        </form>
+      )}
+      {showNotification && (
+        <div className="success-notification">
+          <h2>Success</h2>
+          <p>
+            Transaction has gone through
+          </p>
+        </div>
+      )}
+    </>
   )
 }
 export default Transactions
