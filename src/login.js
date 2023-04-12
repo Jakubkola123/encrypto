@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import './style.css';
+import { useNavigate } from 'react-router-dom';
 import { NavLink, Route, Routes, BrowserRouter as Router} from 'react-router-dom';
+import Homepage from './App.js' 
 
-import Homepage from './App.js'
+
 
 function App() {
   <Router>
@@ -14,6 +16,36 @@ function App() {
 
 
 const Login=() => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch('http://localhost:3001/login', { //3001 is the server.js port
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await response.json();    
+
+    if (response.status === 200) {
+      navigate('/transactions');
+      setErrorMessage('');
+    } else {
+      alert('Invalid username or password');
+      setUsername('');
+      setPassword('');
+      setErrorMessage(data.message);      
+    }
+       
+  };
+
   return (
 <div className="body">
   <>
@@ -24,7 +56,7 @@ const Login=() => {
     <div className="nav-wrapper">
       <div className="left-side">
         <div className="nav-link-wrapper active-nav-link">
-          <a>Encrypto</a>
+          <a href="index.html">Encrypto</a>
         </div>
         <div id="menus" className="test-overlay">
           <a
@@ -53,9 +85,114 @@ const Login=() => {
       <div className="mega-menu">
         <ul>
           <li>
-          <li><NavLink exact activeClassName="current" to='/'>Home</NavLink></li> {/*Creates the login button */}
+            <a href="index.html">HOME</a>
           </li>
-          
+          <li>
+            <a href="index.html">LINKS</a>
+            <div className="sub-menu">
+              <div className="col6">
+                <a href="index.html">
+                  <h5>Page Link ?</h5>
+                </a>
+                <h5>
+                  <a href="index.html">
+                    <h5>Page Link ?</h5>
+                  </a>
+                </h5>
+                <h5>
+                  <a href="index.html">
+                    <h5>Page Link ?</h5>
+                  </a>
+                </h5>
+                <h5></h5>
+              </div>
+              <div className="col6">
+                <a href="index.html">
+                  <h5>Page Link ?</h5>
+                </a>
+                <h5>
+                  <a href="index.html">
+                    <h5>Page Link ?</h5>
+                  </a>
+                </h5>
+                <h5>
+                  <a href="index.html">
+                    <h5>Page Link ?</h5>
+                  </a>
+                </h5>
+                <h5></h5>
+              </div>
+              <div className="col6">
+                <a href="index.html">
+                  <h5>Page Link ?</h5>
+                </a>
+                <h5 />
+                <a href="index.html">
+                  <h5>Page Link ?</h5>
+                </a>
+                <h5>
+                  <a href="index.html">
+                    <h5>Page Link ?</h5>
+                  </a>
+                </h5>
+                <h5></h5>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="index.html">LINKS</a>
+            <div className="sub-menu">
+              <div className="col3">
+                <h4>TODO</h4>
+                <p>
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maxime nihil atque rem minima optio debitis ratione. Ipsa,
+                  dolorum nobis iste veritatis vel eos iusto quas aliquam,
+                  beatae maiores porro repudiandae!
+                </p>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="index.html">LINKS</a>
+            <div className="sub-menu">
+              <div className="col3">
+                <h4>TODO</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Sunt, aliquid architecto. Repellat aliquid placeat corrupti
+                  officia. Sunt quae dolores aliquid neque vitae debitis
+                  suscipit ipsum illo quaerat? Quod, quos reprehenderit!
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Voluptatum eius at repudiandae dolorum voluptatibus quas
+                  excepturi laborum et. Omnis incidunt cum nam porro neque
+                  praesentium et quod minima corrupti odio!
+                </p>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="index.html">LINKS</a>
+            <div className="sub-menu">
+              <div className="col3">
+                <h4>TODO</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Tempore quidem delectus temporibus quaerat ullam in beatae,
+                  soluta illum alias! Quod hic dolor maiores et! Modi
+                  accusantium eum reprehenderit sequi laudantium.
+                </p>
+              </div>
+            </div>
+          </li>
+          <li className="login">
+            <a href="login.html">Log in</a>
+          </li>
+          <li className="register">
+            <a href="sign-up.html">Sign up</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -70,16 +207,29 @@ const Login=() => {
             dignissimos vitae rerum, animi vero a deserunt optio fugiat
             recusandae temporibus molestias enim qui voluptates reiciendis.
           </p>
-          
+          <ul className="links-about">
+            <li>
+              <a href="index.html">Home</a>
+            </li>
+            <div className="vertical-line-about" />
+            <li>
+              <a href="index.html">Link</a>
+            </li>
+            <div className="vertical-line-about" />
+            <li>
+              <a href="index.html">Link</a>
+            </li>
+          </ul>
         </div>
         <div className="loginwrapper">
-          <form action="#">
+          <form onSubmit={handleLogin}> 
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div className="field">
-              <input type="text" required="" />
+              <input type="text" required="" value={username} onChange={(e) => setUsername(e.target.value)}/>
               <label>Username</label>
             </div>
             <div className="field">
-              <input type="password" required="" />
+              <input type="password" required="" value={password} onChange={(e) => setPassword(e.target.value)} />
               <label>Password</label>
             </div>
             <div className="content">
