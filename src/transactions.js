@@ -114,27 +114,6 @@ const Transactions=() => {
             <div className="nav-link-wrapper active-nav-link">
               <a>Encrypto</a>
             </div>
-            <div id="menus" className="test-overlay">
-              <a
-                href="javascript:void(0)"
-                className="test-close"
-                onclick="closeMenu()"
-              >
-                ×
-              </a>
-              <div className="test-overlay-content">
-                <a href="index.html">HOME</a>
-                <a href="index.html">LINKS</a>
-                <a href="index.html">LINKS</a>
-                <a href="index.html">LINKS</a>
-                <a href="index.html">LINKS</a>
-              </div>
-            </div>
-            <div className="menu-container" onclick="openMenu(this)">
-              <div className="bar1" />
-              <div className="bar2" />
-              <div className="bar3" />
-            </div>
           </div>
         </div>
         <div className="wrapper">
