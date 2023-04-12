@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './style.css';
-import { NavLink, Route, Routes, BrowserRouter as Router} from 'react-router-dom';
+import { NavLink, Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 
-import Homepage from './App.js'
+import Homepage from './App.js';
 
 function App() {
   <Router>
@@ -15,14 +17,51 @@ function App() {
 
 const Transactions=() => {
 
-  const [balance, setBalance] = useState(1000); // set initial balance to $1000
-  const [showForm, setShowForm] = useState(false); // show/hide pop-up form
-  const [amount, setAmount] = useState(0); // amount to be added to balance
-  const [showNotification, setShowNotification] = useState(false); // show/hide notification
+  const [balance, setBalance] = useState(1000);
+  const [showForm, setShowForm] = useState(false);
+  const [amount, setAmount] = useState(0);
+  const [showNotification, setShowNotification] = useState(false);
+  const [selectedCrypto, setSelectedCrypto] = useState(null);
 
-  const handleBuyClick = () => {
-    setShowForm(true); // show pop-up form when Buy button is clicked
-  }
+  const [cryptoHoldings, setCryptoHoldings] = useState({ BTC: 0, ETH: 0, LTC: 0 });
+  const [cryptoPrices, setCryptoPrices] = useState({});
+  const [historicalData, setHistoricalData] = useState([]);
+
+  const fetchCryptoPrices = async () => {
+    try {
+      const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Clitecoin&vs_currencies=usd');
+      setCryptoPrices(response.data);
+    } catch (error) {
+      console.error('Error fetching crypto prices:', error);
+    }
+  };
+
+  const fetchHistoricalData = async (cryptoId) => {
+    try {
+      const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${cryptoId}/market_chart?vs_currency=usd&days=30&interval=daily`);
+      const formattedData = response.data.prices.map((entry) => ({ timestamp: entry[0], price: entry[1] }));
+      setHistoricalData(formattedData);
+    } catch (error) {
+      console.error('Error fetching historical data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCryptoPrices();
+  }, []);
+
+  const handleCryptoSelection = (cryptoId) => {
+    fetchHistoricalData(cryptoId);
+  };
+  const handleBuyClick = (crypto) => {
+    setSelectedCrypto(crypto);
+    setShowForm(true);
+  };
+
+  const handleSellClick = (crypto, cryptoId) => {
+    setSelectedCrypto(crypto);
+    // Implement the selling functionality
+  };  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -105,7 +144,44 @@ const Transactions=() => {
               <div className="crypto-view">
                 <h2 className="crypto-title">View Crypto</h2>
                 <div className="crypto-box">
-              <p>Shows crypto when button pressed</p>
+                <div className="user-transaction-buttons">
+                <div className="transaction-button buy-button" onClick={() => handleBuyClick("BTC", "bitcoin")}>
+                  <span>Buy BTC  ${cryptoPrices.bitcoin?.usd || "..."}</span>
+                </div>
+                <div className="transaction-button sell-button" onClick={() => handleSellClick("BTC", "bitcoin")}>
+                  <span>Sell BTC</span>
+                </div>
+                <div className="transaction-button buy-button" onClick={() => handleBuyClick("ETH", "ethereum")}>
+                  <span>Buy ETH  ${cryptoPrices.ethereum?.usd || "..."}</span>
+                </div>
+                <div className="transaction-button sell-button" onClick={() => handleSellClick("ETH", "ethereum")}>
+                  <span>Sell ETH</span>
+                </div>
+                <div className="transaction-button buy-button" onClick={() => handleBuyClick("LTC", "litecoin")}>
+                  <span>Buy LTC  ${cryptoPrices.litecoin?.usd || "..."}</span>
+                </div>
+                <div className="transaction-button sell-button" onClick={() => handleSellClick("LTC", "litecoin")}>
+                  <span>Sell LTC</span>
+                </div>
+              </div>                  
+              <select onChange={(e) => handleCryptoSelection(e.target.value)}>
+                <option value="">Select Crypto</option>
+                <option value="bitcoin">Bitcoin</option>
+                <option value="ethereum">Ethereum</option>
+                <option value="litecoin">Litecoin</option>
+              </select>
+              <ResponsiveContainer width="100%" height={400}>
+                <LineChart data={historicalData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="timestamp" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="price" stroke="#8884d8" activeDot={{ r: 8 }} />
+                </LineChart>
+              </ResponsiveContainer>
+
+
             </div>
           </div>
         </div>
