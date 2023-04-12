@@ -406,10 +406,11 @@ color: #000000;
 .categories-wrapper{
   display: grid;
   grid-template-columns: 1fr;
+  padding-left: 100px;
 }
 
 /* //resize to two grids for large screens */
-@media (min-width: 900px) {
+@media (min-width: 1000px) {
   .categories-wrapper { 
       grid-template-columns: repeat(2, 1fr); }
 }
@@ -424,7 +425,17 @@ color: #000000;
   height: 500px;
   display: block;
   margin: 3px;
+  
 }
+.market-caption {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+}
+
 .categories-wrapper .category-wrapper .category-img p{
   text-align: center;
   font-size: 30px;
