@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import './style.css';
-import { NavLink, Route, Routes, BrowserRouter as Router } from 'react-router-dom';
+import { NavLink, Route, Routes, BrowserRouter as Router} from 'react-router-dom';
 
-import Homepage from './App.js';
+import Homepage from './App.js'
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Homepage />} />
-      </Routes>
-    </Router>
-  )
+  <Router>
+    <Routes>
+    <Route path='/' element={<Homepage />}/> {/*changes to home page*/}
+    </Routes>
+  </Router>
 }
 
-const Transactions = () => {
+
+const Transactions=() => {
+
   const [balance, setBalance] = useState(1000); // set initial balance to $1000
   const [showForm, setShowForm] = useState(false); // show/hide pop-up form
   const [amount, setAmount] = useState(0); // amount to be added to balance
@@ -33,11 +33,12 @@ const Transactions = () => {
     setTimeout(() => {
       setShowNotification(false); // hide notification after 2 seconds
     }, 2000);
-  }
+  }  
 
   return (
-    <>
-      <meta charSet="utf-8" />
+
+<>
+<meta charSet="utf-8" />
       <title>Encrypto - Buy &amp; sell crypto</title>
       <link rel="stylesheet" href="style.css" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
