@@ -355,7 +355,7 @@ color: #000000;
       display:none;
   }
 }
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 590px) {
   .mega-menu{
       display:none;
   }
@@ -406,7 +406,7 @@ color: #000000;
 .categories-wrapper{
   display: grid;
   grid-template-columns: 1fr;
-  padding-left: 100px;
+  padding-left: 80px;
 }
 
 /* //resize to two grids for large screens */
@@ -414,6 +414,8 @@ color: #000000;
   .categories-wrapper { 
       grid-template-columns: repeat(2, 1fr); }
 }
+
+
 
 .category-wrapper{
   margin: 50px 30px;
@@ -430,11 +432,14 @@ color: #000000;
 .market-caption {
   font-weight: bold;
   font-size: 1.2rem;
-  color: #333;
+  color: #000;
   text-transform: uppercase;
   text-align: center;
   border: none;
-}
+  text-decoration: none;
+  margin-left: 180px;
+  }
+
 
 .categories-wrapper .category-wrapper .category-img p{
   text-align: center;

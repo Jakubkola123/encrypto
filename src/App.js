@@ -110,7 +110,9 @@ function Homepage() {
           <div className="category-img">
 
               <img src={bitcoinpic} alt="image" />
-              <li><NavLink exact activeClassName="current" to='/'>View News</NavLink></li> {/*Creates the transactions button */}
+              <NavLink exact activeClassName="current" to='/'>
+                <span className="market-caption">View News</span>
+              </NavLink>
           </div>
           
         </div>
