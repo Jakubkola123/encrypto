@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './style.css';
 import { NavLink, Route, Routes, BrowserRouter as Router} from 'react-router-dom';
 
+import News from './news';
+
 const CryptoTable = () => {
   const [cryptoData, setCryptoData] = useState([]);
 
@@ -30,7 +32,7 @@ const CryptoTable = () => {
         <li><NavLink exact activeClassName="current" to='/'>Home</NavLink></li> {/*Creates the login button */}
         <li><NavLink exact activeClassName="current" to='/login'>Log in</NavLink></li> {/*Creates the login button */}
         <li><NavLink exact activeClassName="current" to='/transactions'>Transactions</NavLink></li> {/*Creates the transactions button */}
-
+        <li><NavLink exact activeClassName="current" to='/news'>News</NavLink></li> {/*Creates the transactions button */}
       </ul>
 
       </div>

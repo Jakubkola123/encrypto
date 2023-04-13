@@ -211,7 +211,7 @@ const Transactions=() => {
           <div className="padding-layer">
             <div className="user-dashboard">
               <div className="username">
-                <h2>Test User</h2>
+                <h2>testuser</h2>
               </div>
               <div className="balance">
                 <h3>Balance:</h3>
