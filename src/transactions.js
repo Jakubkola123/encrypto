@@ -22,6 +22,9 @@ const Transactions=() => {
   const [amount, setAmount] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
   const [selectedCrypto, setSelectedCrypto] = useState(null);
+  const [showBuySellForm, setShowBuySellForm] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+  const [buySellAmount, setBuySellAmount] = useState(0);
 
 
   const [isWithdrawFormVisible, setIsWithdrawFormVisible] = useState(false);
@@ -57,20 +60,101 @@ const Transactions=() => {
     fetchCryptoPrices();
   }, []);
 
+  useEffect(() => {
+    let newBalance = 1000;
+    const newCryptoHoldings = { BTC: 0, ETH: 0, LTC: 0 };
+  
+    transactions.forEach((transaction) => {
+      console.log(transaction);
+      if (transaction.type === "buy") {
+        newBalance -= transaction.transactionAmount;
+        newCryptoHoldings[transaction.crypto] += transaction.amount;
+      } else if (transaction.type === "sell") {
+        newBalance += transaction.transactionAmount;
+        newCryptoHoldings[transaction.crypto] -= transaction.amount;
+      }
+    });
+  
+    setBalance(newBalance);
+    setCryptoHoldings(newCryptoHoldings);
+  }, [transactions]);
+  
+  
+  
+
   const handleCryptoSelection = (cryptoId) => {
     fetchHistoricalData(cryptoId);
   };
-  const handleBuyClick = () => {
-    setShowForm(true);
-    setIsWithdrawFormVisible(false);
+
+
+  const handleBuyClick = (e) => {
+    e.preventDefault();
+    const crypto = selectedCrypto;
+    const cryptoId = selectedCrypto.toLowerCase();
+    const cryptoPrice = cryptoPrices[cryptoId]?.usd;
+    console.log("Buy clicked", crypto, cryptoId, cryptoPrice);
+    if (cryptoPrice) {
+      const transactionAmount = buySellAmount * cryptoPrice;
+      console.log("Transaction amount", transactionAmount, "Balance", balance);
+      if (transactionAmount <= balance) {
+        setTransactions((prevTransactions) => [
+          ...prevTransactions,
+          {
+            type: "buy",
+            crypto,
+            amount: buySellAmount,
+            transactionAmount,
+          },
+        ]);
+      }
+    }
+    setShowBuySellForm(false);
+  };
+  
+  const handleSell = (e) => {
+    e.preventDefault();
+    const crypto = selectedCrypto;
+    const cryptoId = selectedCrypto.toLowerCase();
+    const cryptoPrice = cryptoPrices[cryptoId]?.usd;
+    console.log("Sell clicked", crypto, cryptoId, cryptoPrice);
+    if (cryptoPrice) {
+      const transactionAmount = buySellAmount * cryptoPrice;
+      if (buySellAmount <= cryptoHoldings[crypto]) {
+        setTransactions((prevTransactions) => [
+          ...prevTransactions,
+          {
+            type: "sell",
+            crypto,
+            amount: buySellAmount,
+            transactionAmount,
+          },
+        ]);
+      }
+    }
+    setShowBuySellForm(false);
+  };
+  
+
+    
+  const handleSubmitBuySell = (e) => {
+    e.preventDefault();
+    if (selectedCrypto) {
+      if (e.nativeEvent.submitter.textContent.startsWith("Buy")) {
+        handleBuyClick(e);
+      } else if (e.nativeEvent.submitter.textContent.startsWith("Sell")) {
+        handleSell(e);
+      }
+      
+    }
+  };
+
+  const handleOpenBuySellForm = (crypto) => {
+    setSelectedCrypto(crypto);
+    setShowBuySellForm(true);
   };
 
 
-  const handleSellClick = (crypto, cryptoId) => {
-    setSelectedCrypto(crypto);
-    // Implement the selling functionality
-  };  
-
+  
   const handleWithdrawClick = () => {
     setShowForm(true);
     setIsWithdrawFormVisible(true);
@@ -133,9 +217,9 @@ const Transactions=() => {
                 <h3>Balance:</h3>
                 <p>${balance.toFixed(2)}</p>
               </div>
-            </div>
+            </div>           
             <div className="user-transaction-buttons">
-              <div className="transaction-button buy-button" onClick={handleBuyClick}>
+              <div className="transaction-button buy-button" onClick={() => setShowForm(true)}>
                 <span>Add or withdraw funds</span>
               </div>
             </div>
@@ -144,25 +228,20 @@ const Transactions=() => {
                 <h2 className="crypto-title">View Crypto</h2>
                 <div className="crypto-box">
                 <div className="user-transaction-buttons">
-                <div className="transaction-button buy-button" onClick={() => handleBuyClick("BTC", "bitcoin")}>
-                  <span>Buy BTC  ${cryptoPrices.bitcoin?.usd || "..."}</span>
+                  <div className="transaction-button buy-button" onClick={() => handleOpenBuySellForm("BTC")}>
+                    <span> BTC  ${cryptoPrices.bitcoin?.usd || "..."}</span>
+                  </div>
+
+                  <div className="transaction-button buy-button" onClick={() => handleOpenBuySellForm("ETH")}>
+                    <span>ETH  ${cryptoPrices.ethereum?.usd || "..."}</span>
+                  </div>
+
+                  <div className="transaction-button buy-button" onClick={() => handleOpenBuySellForm("LTC")}>
+                    <span> LTC  ${cryptoPrices.litecoin?.usd || "..."}</span>
+                  </div>
+
                 </div>
-                <div className="transaction-button sell-button" onClick={() => handleSellClick("BTC", "bitcoin")}>
-                  <span>Sell BTC</span>
-                </div>
-                <div className="transaction-button buy-button" onClick={() => handleBuyClick("ETH", "ethereum")}>
-                  <span>Buy ETH  ${cryptoPrices.ethereum?.usd || "..."}</span>
-                </div>
-                <div className="transaction-button sell-button" onClick={() => handleSellClick("ETH", "ethereum")}>
-                  <span>Sell ETH</span>
-                </div>
-                <div className="transaction-button buy-button" onClick={() => handleBuyClick("LTC", "litecoin")}>
-                  <span>Buy LTC  ${cryptoPrices.litecoin?.usd || "..."}</span>
-                </div>
-                <div className="transaction-button sell-button" onClick={() => handleSellClick("LTC", "litecoin")}>
-                  <span>Sell LTC</span>
-                </div>
-              </div>                  
+            
               <select onChange={(e) => handleCryptoSelection(e.target.value)}>
                 <option value="">Select Crypto</option>
                 <option value="bitcoin">Bitcoin</option>
@@ -225,6 +304,24 @@ const Transactions=() => {
           <button type="submit">Submit</button>
         </form>
       )}
+      
+      {showBuySellForm && (
+        <form>
+          <h3>{selectedCrypto} transaction</h3>
+          <label>
+            Amount:
+            <input
+              type="text"
+              pattern="[0-9]+"
+              onChange={(e) => setBuySellAmount(Number(e.target.value))}
+            />
+          </label>
+          <button type="submit">Buy {selectedCrypto}</button>
+          <button type="submit">Sell {selectedCrypto}</button>
+        </form>
+      )}
+
+
       {showNotification && (
         <div className="success-notification">
           <h2>Success</h2>
