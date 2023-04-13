@@ -355,7 +355,7 @@ color: #000000;
       display:none;
   }
 }
-@media only screen and (max-width: 590px) {
+@media only screen and (max-width: 900px) {
   .mega-menu{
       display:none;
   }
@@ -406,7 +406,7 @@ color: #000000;
 .categories-wrapper{
   display: grid;
   grid-template-columns: 1fr;
-  padding-left: 80px;
+  padding-left: 100px;
 }
 
 /* //resize to two grids for large screens */
@@ -414,8 +414,6 @@ color: #000000;
   .categories-wrapper { 
       grid-template-columns: repeat(2, 1fr); }
 }
-
-
 
 .category-wrapper{
   margin: 50px 30px;
@@ -432,14 +430,11 @@ color: #000000;
 .market-caption {
   font-weight: bold;
   font-size: 1.2rem;
-  color: #000;
+  color: #333;
   text-transform: uppercase;
   text-align: center;
   border: none;
-  text-decoration: none;
-  margin-left: 180px;
-  }
-
+}
 
 .categories-wrapper .category-wrapper .category-img p{
   text-align: center;
@@ -678,7 +673,7 @@ section{
 }
 
 .content-about p{
-  padding-bottom: 15px;
+  padding-bottom: 25px;
   font-weight: 300;
   opacity: 0.7;
   width: 60%;
@@ -1017,3 +1012,23 @@ margin-top: 2rem;
   font-size: 14px; /* You can adjust the font size to your preference */
 }
 
+.news {
+  width: 100%;
+  margin-left: 20em;
+  margin-top: 10em;
+  align-items: center;
+}
+.news h2 {
+  font-size: 4em;
+  text-align: center;
+  padding-bottom: 1.5em;
+}
+.news h3{
+  text-align: center;
+  padding-bottom: 1em;
+}
+.news p {
+  text-align: center;
+  padding-bottom: 5em;
+
+}
