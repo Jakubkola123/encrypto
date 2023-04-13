@@ -10,6 +10,7 @@ import { NavLink, Route, Routes, BrowserRouter as Router} from 'react-router-dom
 import Login from './login';
 import ViewMarket from './viewMarket';
 import Transactions from './transactions';
+import News from './news';
 
 
 function App() { //the function 'App' has all the routes, which is what changes the page when you press a button
@@ -20,7 +21,8 @@ function App() { //the function 'App' has all the routes, which is what changes 
       <Route path='/' element={<Homepage />}/> {/*changes to home page*/}
       <Route path='/login' element={<Login />}/> {/*changes to login page*/}
       <Route path='/viewMarket' element={<ViewMarket />}/> {/*changes to view market page*/}
-      <Route path='/transactions'element={<Transactions />}/> {/*changes to transactions page*/}
+      <Route path='/transactions'element={<Transactions />}/> 
+      <Route path='/news'element={<News />}/>
     </Routes>
   </Router>)
 
@@ -57,9 +59,9 @@ function Homepage() {
         <ul>
         
           <li><NavLink exact activeClassName="current" to='/login'>Log in</NavLink></li> {/*Creates the login button */}
-          <li><NavLink exact activeClassName="current" to='/transactions'>Transactions</NavLink></li> {/*Creates the transactions button */}
+          <li><NavLink exact activeClassName="current" to='/transactions'>Transactions</NavLink></li> 
           <li><NavLink exact activeClassName="current" to='/viewMarket'>View Market</NavLink></li> {/*Create the market button*/}
-
+          <li><NavLink exact activeClassName="current" to='/news'>News</NavLink></li> {/*Create the market button*/}
         </ul>
       </div>
 
@@ -110,9 +112,7 @@ function Homepage() {
           <div className="category-img">
 
               <img src={bitcoinpic} alt="image" />
-              <NavLink exact activeClassName="current" to='/'>
-                <span className="market-caption">View News</span>
-              </NavLink>
+              <li><NavLink exact activeClassName="current" to='/news'>News</NavLink></li> {/*Create the market button*/}
           </div>
           
         </div>

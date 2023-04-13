@@ -59,6 +59,15 @@ const Login=() => {
         <div className="nav-link-wrapper active-nav-link">
           <a>Encrypto</a>
         </div>
+        <div id="menus" className="test-overlay">
+          <a
+            href="javascript:void(0)"
+            className="test-close"
+            onclick="closeMenu()"
+          >
+            ×
+          </a>
+          </div>
       </div>
     </div>
     <div className="wrapper">
@@ -77,10 +86,9 @@ const Login=() => {
           <h2>Login To Encrypto</h2>
           <span></span>
           <p>
-            //encrypto info here// ... Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Eos tempora repudiandae quidem quas architecto
-            dignissimos vitae rerum, animi vero a deserunt optio fugiat
-            recusandae temporibus molestias enim qui voluptates reiciendis.
+            Encrypto is a user-friendly crypto wallet that allows you to manage your digital assets with ease.
+            With Encrypto, you can easily buy and sell crypto, view news, and view real-time market information. 
+            Sign up today with Encrypto.
           </p>
           
         </div>
@@ -122,32 +130,3 @@ const Login=() => {
  
 export default Login
   
-
-{/* <script>
-    
-    function animateMenu(x) {
-  x.classList.toggle("change");
-}
-    function openMenu(){
-        document.getElementById("menus").style.width="100%";
-      }
-    function closeMenu(){
-        document.getElementById("menus").style.width="0%";
-      }
-
-    const x = document.querySelectorAll('.portfolio-item-wrapper')
-
-    x.forEach(portfolioItem => {
-        portfolioItem.addEventListener('mouseover', () => {
-            // console.log(portfolioItem);
-            portfolioItem.childNodes[1].classList.add('img-darken');
-
-        })
-        portfolioItem.addEventListener('mouseout', () => {
-            // console.log(portfolioItem);
-            portfolioItem.childNodes[1].classList.remove('img-darken');
-
-        })
-    })
-
-</script> */}
